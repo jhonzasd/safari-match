@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2114045873657116, guid: b0bd8e8a707dc7740a1f0f6f21642e39, type: 3}
       propertyPath: m_Name
-      value: monkey (8) Variant
+      value: rabbit Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5035545777293869336, guid: b0bd8e8a707dc7740a1f0f6f21642e39, type: 3}
       propertyPath: m_Sprite
@@ -59,6 +59,10 @@ PrefabInstance:
     - target: {fileID: 7970604836812133164, guid: b0bd8e8a707dc7740a1f0f6f21642e39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631712269807748736, guid: b0bd8e8a707dc7740a1f0f6f21642e39, type: 3}
+      propertyPath: pieceType
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Board : MonoBehaviour
 {
@@ -69,7 +68,7 @@ public class Board : MonoBehaviour
     {
         var pieceToClear = Pieces[x, y];
         Destroy(pieceToClear.gameObject);
-        pieceToClear = null;
+        Pieces[x, y] = null;
         
     }
 
@@ -105,7 +104,7 @@ public class Board : MonoBehaviour
             {
                 var o = Instantiate(tileObject, new Vector3(x, y, -5), Quaternion.identity);
                 o.transform.parent = transform;
-                Tiles[x, y] = o.GetComponent<Tile>(); // Se guarda una referencia a los espacios creados.
+                Tiles[x, y] = o.GetComponent<Tile>(); // Se guarda una referencia a los espacios creados
                 Tiles[x, y]?.Setup(x, y, this);
                 
             }
@@ -142,31 +141,24 @@ public class Board : MonoBehaviour
         Pieces[endTile.x, endTile.y] = StartPiece;
 
         yield return new WaitForSeconds(0.6f);
-
-        bool foundMatch = false;
+        
         var startMatches = GetMatchByPiece(startTile.x, startTile.y, 3); // Busca los matches de la pieza inicial
         var endMatches = GetMatchByPiece(endTile.x, endTile.y, 3); // Busca los matches de la pieza final
-        
-        startMatches.ForEach(piece =>
-        {
-            foundMatch = true;
-            Pieces[piece.x, piece.y] = null;
-            Destroy(piece.gameObject);
-        });
-        
-        endMatches.ForEach(piece =>
-        {
-            foundMatch = true;
-            Pieces[piece.x, piece.y] = null;
-            Destroy(piece.gameObject);
-        });
 
-        if (!foundMatch)
+
+        var allMatches = startMatches.Union(endMatches).ToList();
+        
+
+        if (allMatches.Count == 0)
         {
             StartPiece.Move(startTile.x, startTile.y);
             EndPiece.Move(endTile.x, endTile.y);
             Pieces[startTile.x, startTile.y] = StartPiece;
             Pieces[endTile.x, endTile.y] = EndPiece;
+        }
+        else
+        {
+            ClearPieces(allMatches);
         }
         
         startTile = null;
@@ -175,6 +167,64 @@ public class Board : MonoBehaviour
 
         yield return null;
 
+    }
+
+    private void ClearPieces(List<Piece> piecesToClear)
+    {
+        piecesToClear.ForEach(piece =>
+        {
+            ClearPieceAt(piece.x, piece.y);
+        });
+        List<int>columns = GetColumms(piecesToClear);
+        List<Piece> collapsedPieces = collapseColumns(columns, 0.3f);
+    }
+    
+    private List<Piece> collapseColumns(List<int> columns, float timeToCollapse)
+    {
+        List<Piece> movingPieces = new List<Piece>();
+
+        for (int i = 0; i < columns.Count; i++)
+        {
+            var column = columns[i];
+            for (int y = 0; y < height; y++)
+            {
+                if (Pieces[column, y] == null)
+                {
+                    for (int yplus = y + 1; yplus < height; y++)
+                    {
+                        if (Pieces[column, yplus] != null)
+                        {
+                            Pieces[column, yplus].Move(column, y);
+                            Pieces[column, y] = Pieces[column, yplus];
+                            if (!movingPieces.Contains(Pieces[column, y]))
+                            {
+                                movingPieces.Add(Pieces[column, y]);
+                            }
+
+                            Pieces[column, yplus] = null;
+                            break;
+
+                        }
+                    }
+                }
+            }
+        }
+
+        return movingPieces;
+    }
+
+
+    private List<int> GetColumms(List<Piece> piecesToClear)
+    {
+        var result = new List<int>();
+        piecesToClear.ForEach(piece =>
+        {
+            if (!result.Contains(piece.x))
+            {
+                result.Add(piece.x);
+            }
+        });
+        return result;
     }
 
     public bool IsCloseTo(Tile start, Tile end)
