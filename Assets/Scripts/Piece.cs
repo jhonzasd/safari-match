@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +5,11 @@ using DG.Tweening;
 
 public class Piece : MonoBehaviour
 {
-    public int x, y;
+    public int x;
+    public int y;
     public Board board;
 
-    [Tooltip("Animales")] 
+
     public enum type
     {
         elephant,
@@ -24,14 +24,14 @@ public class Piece : MonoBehaviour
         snake
     };
 
-    public void Setup(int x_, int y_, Board board_ )
+    public type pieceType;
+
+    public void Setup(int x_, int y_, Board board_)
     {
         x = x_;
         y = y_;
         board = board_;
     }
-
-    public type pieceType;
 
     public void Move(int desX, int desY)
     {
@@ -45,6 +45,6 @@ public class Piece : MonoBehaviour
     [ContextMenu("Test Move")]
     public void MoveTest()
     {
-        Move(0,0);
+        Move(0, 0);
     }
 }

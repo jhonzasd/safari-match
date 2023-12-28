@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +13,6 @@ public class Tile : MonoBehaviour
         x = x_;
         y = y_;
         board = board_;
-
     }
 
     public void OnMouseDown()
