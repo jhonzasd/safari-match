@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public int Points = 0; // Cantidad de puntos
     public UnityEvent OnPointsUpdated; // Evento para cuando se actualizan los puntos
+    public UnityEvent<GameState> OnGameStateUpdated; // Evento para cuando se actualiza el estado del juego
 
 
     public enum GameState
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
             if(currentTimeToMatch > timeToMatch)
             {
                 gameState = GameState.GameOver;
+                OnGameStateUpdated?.Invoke(gameState);
             }
         }
     }
@@ -53,6 +55,19 @@ public class GameManager : MonoBehaviour
         Points += newPoints;
         OnPointsUpdated?.Invoke();
         currentTimeToMatch = 0f;
+    }
+
+    public void RestartGame()
+    {
+        Points = 0;
+        gameState = GameState.InGame;
+        OnGameStateUpdated?.Invoke(gameState);
+        currentTimeToMatch = 0f;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 }
