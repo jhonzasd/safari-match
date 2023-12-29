@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d605932d0e6f5d45a6f9cd582f634fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenPieces: 0.01
   width: 6
   height: 10
   tileObject: {fileID: 4904134954146944063, guid: 3b8b54ee9b3f3fc44b5977a856b0e6b1, type: 3}
@@ -176,6 +177,9 @@ MonoBehaviour:
   - {fileID: 4842310401476495420, guid: 6b4c5f29214ed4c4c8afb46b2a305372, type: 3}
   - {fileID: 1417919930228447313, guid: fa599621a5b8c9e43bcf4c6c85de5e90, type: 3}
   - {fileID: 2665648428962580955, guid: 558f20731053e494ab133659b5f7b0a6, type: 3}
+  - {fileID: 2114045873657116, guid: b0bd8e8a707dc7740a1f0f6f21642e39, type: 3}
+  - {fileID: 3193592446855709920, guid: b53a1bcf3ddfb50428aa11e94045c568, type: 3}
+  - {fileID: 3859829087134489813, guid: 050c20cc8cd564343b675d0e902cd0a4, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
